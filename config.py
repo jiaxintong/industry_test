@@ -1,6 +1,6 @@
 import json
 
-MANDATORY_FIELDS = ["port", "timeout"]
+MANDATORY_FIELDS = []
 OPTIONAL_FIELDS = ["function_code", "sub_function_code"]
 
 class InvalidConfiguration(Exception):
@@ -24,5 +24,5 @@ class ModbusConfig(object):
             if not self.config.has_key(f):
                 missing_fields.append(f)
         if missing_fields:
-            raise InvalidConfiguration("Missing fields in the configuration: {}".format(",".join(missing_foelds)))
+            raise InvalidConfiguration("Missing fields in the configuration: {}".format(",".join(missing_fields)))
 

@@ -1,4 +1,14 @@
 {
-    "port":"502",
-    "timeout":"3"
+    "timeout":"3",
+    "ip_config_enable":"yes",
+    "ip":
+    {
+        "dst":"'47.95.198.222'"
+    },
+    "tcp_config_enable":"yes",
+    "tcp":
+    {
+        "dport":"502"
+    }
 }
+
