@@ -1,5 +1,4 @@
 {
-    "timeout":"3",
     "ip_config_enable":"yes",
     "ip":
     {
@@ -13,5 +12,8 @@
 	"sport":80,
 	"seq":"1000"
     }
+    "inter":"",
+    "retry":"",
+    "timeout":""
 }
 
