@@ -7,9 +7,21 @@ def general_packet():
 if __name__ == '__main__':
     config_path = "modbus_config.json"
     config = ModbusConfig(config_path)
-    if config.ip_config_enable == "yes":
+    pkts = sniff(timeout=5)
+    packet_format = ""
+    if config.ip_config_enable == "yes" or "y" or "YES" or "Y":
 	packet_format = "IP("
+	last = len(config.ip.items())
 	for key, value in config.ip.items():
-            if 
-                packet_format = packet_format + key + "=" + value + ")"
+            if value != "" or None:    
+		packet_format = packet_format + key + "=" + str(value) + ","
+	packet_format = packet_format[:-1] + ")"
+    if packet_format != "" and (config.tcp_config_enable == "yes" or "y" or "YES" or "Y"):
+	packet_format = packet_format + "/TCP("
+	for key, value in config.tcp.items():
+	    if value != "" or None:
+		packet_format = packet_format + key + "=" + str(value) + ","
+	packet_format = packet_format[:-1] + ")"
+        print packet_format
     eval("sr1("+packet_format+")")
+    wrpcap("modbus.pcap", pkts)

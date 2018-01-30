@@ -3,12 +3,15 @@
     "ip_config_enable":"yes",
     "ip":
     {
-        "dst":"'47.95.198.222'"
+        "dst":"'14.215.177.39'",
+	"ttl":10,
+	"flags":""
     },
     "tcp_config_enable":"yes",
     "tcp":
     {
-        "dport":"502"
+	"sport":80,
+	"seq":"1000"
     }
 }
 
