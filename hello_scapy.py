@@ -24,4 +24,4 @@ if __name__ == '__main__':
 	packet_format = packet_format[:-1] + ")"
         print packet_format
     eval("sr("+packet_format+")")
-    wrpcap("modbus.pcap", pkts)
+    wrpcap("modbus_2.pcap", pkts)
