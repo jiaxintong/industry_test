@@ -2,7 +2,7 @@
     "ip_config_enable":"yes",
     "ip":
     {
-        "dst":"'14.215.177.39'",
+        "dst":"'172.16.26.2'",
 	"ttl":10,
 	"flags":""
     },
@@ -11,7 +11,7 @@
     {
 	"sport":80,
 	"seq":"1000"
-    }
+    },
     "inter":"",
     "retry":"",
     "timeout":""
