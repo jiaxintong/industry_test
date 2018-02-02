@@ -5,6 +5,7 @@ from config import ModbusConfig, MissingConfigField
 def general_packet():
     sr(IP())
 if __name__ == '__main__':
+    load_contrib('modbus')
     config_path = "modbus_config.json"
     config = ModbusConfig(config_path)
     pkts = sniff(timeout = 3)
@@ -22,7 +23,8 @@ if __name__ == '__main__':
 	    if value != "" or None:
 		packet_format = packet_format + key + "=" + str(value) + ","
 	packet_format = packet_format[:-1] + ")"
-        print packet_format
-    eval("sr("+packet_format+")")
-    print pkts
+        #print packet_format
+    #eval("sr("+packet_format+")")
+    #print pkts
+    send(IP(dst='172.16.26.2')/TCP(dport=502)/ModbusADURequest()/ModbusPDU01ReadCoilsResponse())
     wrpcap("modbus_2.pcap", pkts)
