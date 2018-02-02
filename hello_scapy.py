@@ -7,7 +7,7 @@ def general_packet():
 if __name__ == '__main__':
     config_path = "modbus_config.json"
     config = ModbusConfig(config_path)
-    pkts = sniff(timeout=5)
+    pkts = sniff(timeout = 3)
     packet_format = ""
     if config.ip_config_enable == "yes" or "y" or "YES" or "Y":
 	packet_format = "IP("
@@ -24,4 +24,5 @@ if __name__ == '__main__':
 	packet_format = packet_format[:-1] + ")"
         print packet_format
     eval("sr("+packet_format+")")
+    print pkts
     wrpcap("modbus_2.pcap", pkts)
