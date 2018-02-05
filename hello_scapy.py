@@ -15,6 +15,7 @@ def sniff_pkt():
 
 def stopfilter(x):
     times_1 = 0
+    time.sleep(1)
     while times_1 < 10:
         if thread_2.is_alive() == False:
             print "thread_2 not alive"
