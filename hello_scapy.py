@@ -1,5 +1,6 @@
 import json
 import time
+import ctypes
 import threading
 from scapy.all import *
 from config import ModbusConfig, MissingConfigField
@@ -11,20 +12,7 @@ def rd_conf():
     
 def sniff_pkt():
     global pkts
-    pkts = sniff(stop_filter=stopfilter)
-
-def stopfilter(x):
-    times_1 = 0
-    time.sleep(1)
-    while times_1 < 10:
-        if thread_2.is_alive() == False:
-            print "thread_2 not alive"
-            return True
-        else:
-            print "thread_2 alive"
-            times_1 += 1
-            time.sleep(0.5)
-    return True
+    pkts = sniff(timeout=2)
 
 def send_pkt():
     send(IP(dst='172.16.26.2')/TCP(dport=502))
@@ -37,7 +25,7 @@ def wr_pcap():
         else:
             times_2 += 1
             time.sleep(0.2)
-    wrpcap("modbus_3.pcap", pkts)
+    wrpcap("modbus.pcap", pkts)
 
 if __name__ == '__main__':
     #lock = threading.Lock()
