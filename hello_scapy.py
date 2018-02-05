@@ -1,39 +1,30 @@
 import json
 import time
-import ctypes
-import threading
+from multiprocessing import Process, Value
 from scapy.all import *
 from config import ModbusConfig, MissingConfigField
+
+alive = Value('b', False)
 
 def rd_conf():
     load_contrib('modbus')
     config_path = "modbus_config.json"
     config = ModbusConfig(config_path)
     
-def sniff_pkt():
-    global pkts
-    pkts = sniff(timeout=2)
+def sniff_pkt(alive):
+    while alive.value == True:
+        pkts = sniff()
 
 def send_pkt():
     send(IP(dst='172.16.26.2')/TCP(dport=503))
 
-def wr_pcap():
-    times_2 = 0
-    while times_2 < 20:
-        if thread_1.is_alive() == False:
-            break
-        else:
-            times_2 += 1
-            time.sleep(0.2)
-    wrpcap("modbus.pcap", pkts)
-
 if __name__ == '__main__':
-    #lock = threading.Lock()
-    thread_1 = threading.Thread(target=sniff_pkt)
-    thread_1.start()
-    thread_2 = threading.Thread(target=send_pkt)
-    thread_2.start()
-    wr_pcap()
+    sniff_p = Process(target=sniff_pkt, args=(alive,))
+    alive.value = True
+    sniff_p.start()
+    send_pkt()
+    time.sleep(1)
+    alive.value = False
     '''
     packet_format = ""
     if config.ip_config_enable == "yes" or "y" or "YES" or "Y":
