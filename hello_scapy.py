@@ -15,7 +15,7 @@ def sniff_pkt():
     pkts = sniff(timeout=2)
 
 def send_pkt():
-    send(IP(dst='172.16.26.2')/TCP(dport=502))
+    send(IP(dst='172.16.26.2')/TCP(dport=503))
 
 def wr_pcap():
     times_2 = 0
