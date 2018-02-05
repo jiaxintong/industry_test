@@ -1,14 +1,51 @@
 import json
+import time
+import threading
 from scapy.all import *
 from config import ModbusConfig, MissingConfigField
 
-def general_packet():
-    sr(IP())
-if __name__ == '__main__':
+def rd_conf():
     load_contrib('modbus')
     config_path = "modbus_config.json"
     config = ModbusConfig(config_path)
-    pkts = sniff(timeout = 3)
+    
+def sniff_pkt():
+    global pkts
+    pkts = sniff(stop_filter=stopfilter)
+
+def stopfilter(x):
+    times_1 = 0
+    while times_1 < 10:
+        if thread_2.is_alive() == False:
+            print "thread_2 not alive"
+            return True
+        else:
+            print "thread_2 alive"
+            times_1 += 1
+            time.sleep(0.5)
+    return True
+
+def send_pkt():
+    send(IP(dst='172.16.26.2')/TCP(dport=502))
+
+def wr_pcap():
+    times_2 = 0
+    while times_2 < 10:
+        if thread_1.is_alive() == False:
+            break
+        else:
+            times_2 += 1
+            time.sleep(0.2)
+    wrpcap("modbus_3.pcap", pkts)
+
+if __name__ == '__main__':
+    #lock = threading.Lock()
+    thread_1 = threading.Thread(target=sniff_pkt)
+    thread_1.start()
+    thread_2 = threading.Thread(target=send_pkt)
+    thread_2.start()
+    wr_pcap()
+    '''
     packet_format = ""
     if config.ip_config_enable == "yes" or "y" or "YES" or "Y":
 	packet_format = "IP("
@@ -28,3 +65,4 @@ if __name__ == '__main__':
     #print pkts
     send(IP(dst='172.16.26.2')/TCP(dport=502)/ModbusADURequest()/ModbusPDU01ReadCoilsResponse())
     wrpcap("modbus_2.pcap", pkts)
+    '''
