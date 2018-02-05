@@ -19,7 +19,7 @@ def send_pkt():
 
 def wr_pcap():
     times_2 = 0
-    while times_2 < 10:
+    while times_2 < 20:
         if thread_1.is_alive() == False:
             break
         else:
